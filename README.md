@@ -1,11 +1,11 @@
 <div align="center">
 
-<img src="https://readme-typing-svg.herokuapp.com?font=Montserrat&weight=700&size=30&duration=3500&pause=700&color=00FFD1&center=true&vCenter=true&width=780&lines=🤖+𝗚𝗼𝗮𝘁+𝗕𝗼𝘁+𝗩2;⚡+𝗡𝗲𝘅𝘁-𝗚𝗲𝗻+𝗠𝗲𝘀𝘀𝗲𝗻𝗴𝗲𝗿+𝗕𝗼𝘁" />
+<img src="https://readme-typing-svg.herokuapp.com?font=Montserrat&weight=700&size=30&duration=3500&pause=700&color=00FFD1&center=true&vCenter=true&width=780&lines=🤖+𝗚𝗼𝗮𝘁+𝗕𝗼𝘁+𝗩2;⚡+✦ 𝙏𝙊𝙍𝙐 𝘾𝙃𝘼𝙉 ✦+𝗠𝗲𝘀𝘀𝗲𝗻𝗴𝗲𝗿+𝗕𝗼𝘁" />
 
 <p style="font-size:16px; color:#d6fdf6;">
 𝗕𝘂𝗶𝗹𝘁 & 𝗖𝘂𝘀𝘁𝗼𝗺𝗶𝘇𝗲𝗱 𝗯𝘆  
 <span style="color:#00ffd1; font-weight:600;">
-𝐌𝐨𝐡𝐚𝗺𝗺𝐚𝗱 𝐀𝐤𝐚𝐬𝗵
+Kakashi Hatake 
 </span>
 </p>
 
@@ -53,7 +53,7 @@
 
 > 𝗚𝗼𝗮𝘁 𝗕𝗼𝘁 𝗩2 𝗶𝘀 a smart, reliable Facebook Messenger bot designed for automation, group management & entertainment.
 
-💡 **This is a custom fork maintained by 𝐌𝐨𝐡𝐚𝗺𝗺𝐚𝗱 𝐀𝐤𝐚𝐬𝗵 for educational & personal use.**  
+💡 **This is a custom fork maintained by Kakashi for educational & personal use.**  
 
 🔗 **Original Repository / Credits:** [Goat Bot V2 by ntkhang03](https://github.com/ntkhang03/Goat-Bot-V2.git)
 
@@ -71,8 +71,8 @@
 
 ## ⚙️ 𝗙𝗿𝗮𝗺𝗲𝘄𝗼𝗿𝗸 𝗗𝗲𝘁𝗮𝗶𝗹𝘀
 
-- 📦 Based on: Goat Bot V2 Framework  
-- 📆 Version: 2.0 (Custom Edition)  
+- 📦 Based on: Toru Chan V3.0 Framework  
+- 📆 Version: 3.0 (Custom Edition)  
 - 🛠 Built for: Facebook Messenger  
 
 ---
@@ -85,14 +85,6 @@ Click thumbnail to watch full tutorial.
 
 ---
 
-## 🌐 𝗖𝗼𝗻𝗻𝗲𝗰𝘁 𝘄𝗶𝘁𝗵 𝗗𝗲𝘃𝗲𝗹𝗼𝗽𝗲𝗿
-
-[![Facebook](https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook&logoColor=white)](https://facebook.com/akashx404)  
-[![Telegram](https://img.shields.io/badge/Telegram-0088CC?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/arakashiam)  
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/akashx404)  
-[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/@akashbotdev)
-
----
 
 ## ⚠️ 𝗗𝗶𝘀𝗰𝗹𝗮𝗶𝗺𝗲𝗿 & 𝗖𝗿𝗲𝗱𝗶𝘁
 
