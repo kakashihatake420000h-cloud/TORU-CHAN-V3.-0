@@ -4,7 +4,7 @@ const fs = require('fs-extra');
 const path = require('path');
 
 module.exports.config = {
-    name: "aniwaifu",  // command
+    name: "myaifu",  // command
     version: "1.0.0",
     hasPermssion: 0,  // anyone
     credits: "Hridoy",
