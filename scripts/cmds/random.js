@@ -11,7 +11,7 @@ module.exports.config = {
   role: 0,
   author: "ArYAN",
   description: "Send a random video from API",
-  category: "media",
+  category: "Media",
   cooldowns: 5
 };
 
