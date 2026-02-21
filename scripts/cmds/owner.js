@@ -10,7 +10,7 @@ module.exports = {
     author: "Hridoy",
     role: 0,
     shortDescription: "Owner information with image",
-    category: "Information",
+    category: "Utility",
     guide: { en: "Admin" }
   },
 
