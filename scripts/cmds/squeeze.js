@@ -1,46 +1,71 @@
-const request = require("request");
 const fs = require("fs-extra");
+const path = require("path");
+const axios = require("axios");
 
-module.exports.config = {
-  name: "squeeze",
-  version: "1.0.0",
-  premium: true,
-  hasPermssion: 2,
-  credits: "Hridoy",
-  description: "Squeeze the breast of the tagged user",
-  commandCategory: "NSFW",
-  usages: "[tag]",
-  cooldowns: 5,
-};
+module.exports = {
+  config: {
+    name: "squeeze",
+    version: "1.0.2",
+    hasPermssion: 0,
+    credits: "Hridoy",
+    description: "Slap the friend you mention",
+    category: "NSFW",
+    usages: "@tag",
+    cooldowns: 5
+  },
 
-module.exports.run = async ({ api, event }) => {
-  const links = [
-    "https://i.postimg.cc/tC2BTrmF/3.gif",
+  onStart: async function({ api, event }) {
+    try {
+      // Check mentions
+      if (!event.mentions || Object.keys(event.mentions).length === 0) {
+        return api.sendMessage("❌ Please tag someone to squeeze", event.threadID, event.messageID);
+      }
+
+      const mentionID = Object.keys(event.mentions)[0];
+      const tagName = event.mentions[mentionID].replace("@", "");
+
+      // Slap GIF links
+      const gifs = [
+         "https://i.postimg.cc/tC2BTrmF/3.gif",
     "https://i.postimg.cc/pLrqnDg4/78d07b6be53bea612b6891724c1a23660102a7c4.gif",
     "https://i.postimg.cc/gJFD51nb/detail.gif",
     "https://i.postimg.cc/xjPRxxQB/GiC86RK.gif",
     "https://i.postimg.cc/L8J3smPM/tumblr-myzq44-Hv7-G1rat3p6o1-500.gif",
-  ];
+      ];
 
-  const mentionIDs = Object.keys(event.mentions);
+      const randomGif = gifs[Math.floor(Math.random() * gifs.length)];
 
-  if (mentionIDs.length === 0) 
-    return api.sendMessage("Please tag 1 person", event.threadID, event.messageID);
+      // Cache folder
+      const cacheDir = path.join(__dirname, "cache");
+      if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
 
-  const taggedUserID = mentionIDs[0];
-  const taggedName = event.mentions[taggedUserID].replace("@", "");
+      const gifPath = path.join(cacheDir, "slap.gif");
 
-  const cachePath = __dirname + "/cache/bopvu.gif";
+      // Download GIF
+      const response = await axios({ url: randomGif, method: "GET", responseType: "stream" });
+      const writer = fs.createWriteStream(gifPath);
+      response.data.pipe(writer);
 
-  const callback = () => {
-    api.sendMessage({
-      body: `${taggedName} 𝗬𝗼𝘂 𝗚𝗲𝘁 𝗬𝗼𝘂𝗿 𝗕𝗿𝗲𝗮𝘀𝘁 𝗦𝗾𝘂𝗲𝗲𝘇𝗲𝗱 😝`,
-      mentions: [{ tag: taggedName, id: taggedUserID }],
-      attachment: fs.createReadStream(cachePath)
-    }, event.threadID, () => fs.unlinkSync(cachePath));
-  };
+      writer.on("finish", () => {
+        api.sendMessage(
+          {
+            body: ` ${tagName}!\n𝗬𝗼𝘂 𝗚𝗲𝘁 𝗬𝗼𝘂𝗿 𝗕𝗿𝗲𝗮𝘀𝘁 𝗦𝗾𝘂𝗲𝗲𝘇𝗲𝗱 😝`,
+            mentions: [{ tag: tagName, id: mentionID }],
+            attachment: fs.createReadStream(gifPath)
+          },
+          event.threadID,
+          () => fs.existsSync(gifPath) && fs.unlinkSync(gifPath),
+          event.messageID
+        );
+      });
 
-  // Download random gif
-  const gifURL = links[Math.floor(Math.random() * links.length)];
-  request(encodeURI(gifURL)).pipe(fs.createWriteStream(cachePath)).on("close", () => callback());
+      writer.on("error", () => {
+        api.sendMessage("❌ Failed to download slap GIF.", event.threadID, event.messageID);
+      });
+
+    } catch (err) {
+      console.error(err);
+      api.sendMessage("❌ An unexpected error occurred.", event.threadID, event.messageID);
+    }
+  }
 };
