@@ -1,3 +1,6 @@
+const fs = require("fs-extra");
+const request = require("request");
+
 module.exports.config = {
     name: "boyanime",
     version: "1.0.0",
@@ -9,9 +12,10 @@ module.exports.config = {
     cooldowns: 5
 };
 
-module.exports.onStart = async function({ api, event }) {
-    const fs = require("fs-extra");
-    const request = require("request");
+// Empty onStart to satisfy GoatBot
+module.exports.onStart = async () => {};
+
+module.exports.run = async function({ api, event }) {
 
     const links = [
         "https://i.imgur.com/x6Cc9n6.jpg",
@@ -44,11 +48,16 @@ module.exports.onStart = async function({ api, event }) {
     const randomImage = links[Math.floor(Math.random() * links.length)];
     const path = __dirname + "/cache/temp.jpg";
 
-    request(randomImage).pipe(fs.createWriteStream(path)).on("close", () => {
-        api.sendMessage(
-            { body: "Anime profile for you\nTag: Anime Blur", attachment: fs.createReadStream(path) },
-            event.threadID,
-            () => fs.unlinkSync(path)
-        );
-    });
+    await fs.ensureDir(__dirname + "/cache");
+
+    request(randomImage)
+        .pipe(fs.createWriteStream(path))
+        .on("close", () => {
+            api.sendMessage(
+                { body: "Anime profile for you\nTag: Anime Blur", attachment: fs.createReadStream(path) },
+                event.threadID,
+                () => fs.unlinkSync(path),
+                event.messageID
+            );
+        });
 };
