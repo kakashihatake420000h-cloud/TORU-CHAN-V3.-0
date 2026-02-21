@@ -6,10 +6,10 @@ module.exports = {
   config: {
     name: "owner",
     version: "1.3.0",
-    author: "Mᴏʜᴀᴍᴍᴀᴅ Aᴋᴀsʜ",
+    author: "Hridoy",
     role: 0,
     shortDescription: "Owner information with image",
-    category: "Information",
+    category: "Admin",
     guide: {
       en: "owner"
     }
