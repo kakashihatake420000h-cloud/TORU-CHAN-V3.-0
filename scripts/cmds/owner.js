@@ -11,7 +11,7 @@ module.exports = {
     role: 0,
     shortDescription: "Owner information with image",
     category: "Information",
-    guide: { en: "owner" }
+    guide: { en: "Admin" }
   },
 
   onStart: async function ({ api, event }) {
