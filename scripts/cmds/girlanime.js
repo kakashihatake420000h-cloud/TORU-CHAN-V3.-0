@@ -1,20 +1,24 @@
-module.exports.config = {
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+
+module.exports = {
+  config: {
     name: "girlanime",
     version: "1.0.0",
-    hasPermssion: 0,
-    credits: "Hridoy",
-    description: "random dp",
-    commandCategory: "Image",
-    usages: "send message",
-    cooldowns: 5
-};
+    author: "Hridoy",
+    countDown: 5,
+    role: 0,
+    shortDescription: "Random Anime Pic",
+    longDescription: "Send random anime picture from list",
+    category: "Image",
+    guide: "{pn}"
+  },
 
-module.exports.onStart = async function({ api, event }) {
-    const fs = require("fs-extra");
-    const request = require("request");
+  onStart: async function ({ message }) {
+    try {
 
-    const text = "Anime profile for you\nTag: anime girl";
-    const links = [
+      const imageLinks = [
         "https://i.imgur.com/qHuv5H8.jpg",
         "https://i.imgur.com/atYmQt0.jpg",
         "https://i.imgur.com/Kuz4Owe.jpg",
@@ -40,16 +44,35 @@ module.exports.onStart = async function({ api, event }) {
         "https://i.imgur.com/WYVQRp1.jpg",
         "https://i.imgur.com/Y1djOm5.jpg",
         "https://i.imgur.com/e0mPXD9.jpg"
-    ];
+      ];
 
-    const randomImage = links[Math.floor(Math.random() * links.length)];
-    const path = __dirname + "/cache/temp.jpg";
+      const randomLink = imageLinks[Math.floor(Math.random() * imageLinks.length)];
 
-    request(randomImage).pipe(fs.createWriteStream(path)).on("close", () => {
-        api.sendMessage(
-            { body: text, attachment: fs.createReadStream(path) },
-            event.threadID,
-            () => fs.unlinkSync(path)
-        );
-    });
+      const filePath = path.join(__dirname, "cache", "randomanime.jpg");
+      const writer = fs.createWriteStream(filePath);
+
+      const response = await axios({
+        url: randomLink,
+        method: "GET",
+        responseType: "stream"
+      });
+
+      response.data.pipe(writer);
+
+      writer.on("finish", async () => {
+        await message.reply({
+          body: "🌸 𝗚𝗶𝗿𝗹 𝗔𝗻𝗶𝗺𝗲 𝗣𝗶𝗰 🌸",
+          attachment: fs.createReadStream(filePath)
+        });
+        fs.unlinkSync(filePath);
+      });
+
+      writer.on("error", () => {
+        message.reply("❌ Image send failed!");
+      });
+
+    } catch (error) {
+      message.reply("❌ Something went wrong!");
+    }
+  }
 };
