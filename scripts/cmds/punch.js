@@ -4,11 +4,11 @@ const axios = require("axios");
 
 module.exports = {
   config: {
-    name: "kick",
+    name: "punch",
     version: "1.0.1",
     hasPermssion: 0,
     credits: "Hridoy",
-    description: "Kick the tagged friend",
+    description: "Punch a tagged friend",
     category: "Tag Fun",
     usages: "@tag",
     cooldowns: 5
@@ -18,17 +18,17 @@ module.exports = {
     try {
       // Check mentions
       if (!event.mentions || Object.keys(event.mentions).length === 0)
-        return api.sendMessage("❌ Please tag someone to kick!", event.threadID, event.messageID);
+        return api.sendMessage("❌ Please tag someone to punch!", event.threadID, event.messageID);
 
       const mentionID = Object.keys(event.mentions)[0];
       const tagName = event.mentions[mentionID].replace("@", "");
 
-      // Kick GIF links
+      // Punch GIF links
       const gifs = [
-        "https://i.postimg.cc/65TSxJYD/2ce5a017f6556ff103bce87b273b89b7.gif",
-        "https://i.postimg.cc/65SP9jPT/Anime-083428-6224795.gif",
-        "https://i.postimg.cc/RFXP2XfS/jXOwoHx.gif",
-        "https://i.postimg.cc/jSPMRsNk/tumblr-nyc5ygy2a-Z1uz35lto1-540.gif"
+        "https://i.postimg.cc/SNX8pD8Z/13126.gif",
+        "https://i.postimg.cc/TYZb2gJT/1467506881-1016b5fd386cf30488508cf6f0a2bee5.gif",
+        "https://i.postimg.cc/fyV3DR33/anime-punch.gif",
+        "https://i.postimg.cc/P5sLnhdx/onehit-30-5-2016-3.gif"
       ];
 
       const randomGif = gifs[Math.floor(Math.random() * gifs.length)];
@@ -37,7 +37,7 @@ module.exports = {
       const cacheDir = path.join(__dirname, "cache");
       if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
 
-      const gifPath = path.join(cacheDir, "kick.gif");
+      const gifPath = path.join(cacheDir, "punch.gif");
 
       // Download GIF
       const response = await axios({ url: randomGif, method: "GET", responseType: "stream" });
@@ -47,7 +47,7 @@ module.exports = {
       writer.on("finish", () => {
         api.sendMessage(
           {
-            body: `🦵 ${tagName}, you just got kicked! 😆`,
+            body: `👊 ${tagName} got punched by you!`,
             mentions: [{ tag: tagName, id: mentionID }],
             attachment: fs.createReadStream(gifPath)
           },
@@ -58,7 +58,7 @@ module.exports = {
       });
 
       writer.on("error", () => {
-        api.sendMessage("❌ Failed to download kick GIF.", event.threadID, event.messageID);
+        api.sendMessage("❌ Failed to download punch GIF.", event.threadID, event.messageID);
       });
 
     } catch (err) {
