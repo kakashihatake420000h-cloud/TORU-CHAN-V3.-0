@@ -89,7 +89,7 @@ module.exports = {
     version: "2.8",
     author: "MOHAMMAD AKASH",
     role: 0,
-    category: "system",
+    category: "System",
     shortDescription: "Display system status in hacker terminal style"
   },
 
