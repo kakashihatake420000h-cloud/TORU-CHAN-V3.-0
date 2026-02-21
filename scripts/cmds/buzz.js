@@ -7,7 +7,7 @@ module.exports = {
     role: 2,
     author: "Akash Edit",
     description: "১০০+ KAKASHI স্টাইল ক্যাপশন পাঠায়",
-    category: "fun",
+    category: "Admin",
     usages: "@mention",
     cooldowns: 5,
   },
