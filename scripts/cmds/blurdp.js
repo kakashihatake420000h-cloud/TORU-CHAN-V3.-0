@@ -1,5 +1,5 @@
 module.exports.config = {
-    name: "aniblur",
+    name: "blurdp",
     version: "1.0.0",
     hasPermssion: 0,
     credits: "Hridoy",
