@@ -85,7 +85,7 @@ const getTemperature = () => {
 module.exports = {
   config: {
     name: "up",
-    aliases: ["uptime", "status", "sysinfo"],
+    aliases: ["uptime", "status", "upt", "up"],
     version: "2.8",
     author: "MOHAMMAD AKASH",
     role: 0,
