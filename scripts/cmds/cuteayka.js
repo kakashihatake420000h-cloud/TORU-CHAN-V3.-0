@@ -1,29 +1,23 @@
-.cmd install cuteayka.js // modules/commands/ayaka.js
-const request = require("request");
+const axios = require("axios");
 const fs = require("fs-extra");
 const path = require("path");
 
-module.exports.config = {
-  name: "cuteayka",
-  version: "1.0.0",
-  hasPermssion: 0,
-  credits: "Hridoy",
-  description: "Random Ayaka image",
-  commandCategory: "Image",
-  usages: "ayakapic",
-  cooldowns: 5,
-  dependencies: {
-    "request":"",
-    "fs-extra":""
-  }
-};
+module.exports = {
+  config: {
+    name: "cuteayka",
+    version: "2.0.0",
+    author: "Hridoy",
+    role: 0,
+    shortDescription: "Random Ayaka image",
+    category: "Image",
+    guide: "{pn}",
+    cooldown: 5
+  },
 
-// Empty onStart to satisfy GoatBot
-module.exports.onStart = async () => {};
+  onStart: async function ({ api, event, usersData }) {
 
-module.exports.run = async ({ api, event, Currencies }) => {
-  const link = [
-     "https://i.imgur.com/uXWLBeC.jpeg",
+    const link = [
+           "https://i.imgur.com/uXWLBeC.jpeg",
      "https://i.imgur.com/7Dc9GrN.jpeg",
      "https://i.imgur.com/IaAVMFK.jpeg",
      "https://i.imgur.com/WceNH2z.jpeg",
@@ -126,43 +120,56 @@ module.exports.run = async ({ api, event, Currencies }) => {
            "https://i.imgur.com/OvAjaUQ.jpeg",
            "https://i.imgur.com/CW4Id3o.jpeg",
            "https://i.imgur.com/5SWTCJ4.jpeg",
-    // ... [সব ছবি এখানে থাকবে, তোমার লিস্টের মত]
-  ];
+      
+      // চাইলে পুরো লিস্ট রাখো
+    ];
 
-  try {
-    const data = await Currencies.getData(event.senderID);
-    const money = data.money;
+    try {
 
-    if (money < 100) {
-      return api.sendMessage("Do you need $100 to see the photo?", event.threadID, event.messageID);
-    }
+      // GoatBot money system
+      const userData = await usersData.get(event.senderID);
+      const money = userData.money || 0;
 
-    await Currencies.setData(event.senderID, { money: money - 100 });
+      if (money < 100) {
+        return api.sendMessage(
+          "💵 You need $100 to see the photo!",
+          event.threadID,
+          event.messageID
+        );
+      }
 
-    // Random image
-    const imgUrl = link[Math.floor(Math.random() * link.length)];
-    const cacheDir = path.join(__dirname, "cache");
-    await fs.ensureDir(cacheDir);
-    const imgPath = path.join(cacheDir, `ayaka_${Date.now()}.jpg`);
+      await usersData.set(event.senderID, {
+        money: money - 100
+      });
 
-    // Download
-    const writer = fs.createWriteStream(imgPath);
-    request(imgUrl).pipe(writer);
+      const imgUrl = link[Math.floor(Math.random() * link.length)];
 
-    writer.on("finish", () => {
-      api.sendMessage({
-        body: `Photo Ayaka 💞\n-100 USD!`,
-        attachment: fs.createReadStream(imgPath)
-      }, event.threadID, () => fs.unlinkSync(imgPath), event.messageID);
-    });
+      const cachePath = path.join(__dirname, "cache", `ayaka_${Date.now()}.jpg`);
+      await fs.ensureDir(path.dirname(cachePath));
 
-    writer.on("error", (err) => {
+      const response = await axios({
+        url: imgUrl,
+        method: "GET",
+        responseType: "stream"
+      });
+
+      const writer = fs.createWriteStream(cachePath);
+      response.data.pipe(writer);
+
+      writer.on("finish", () => {
+        api.sendMessage({
+          body: "🌸 Ayaka Photo 💞\n-100$ deducted!",
+          attachment: fs.createReadStream(cachePath)
+        }, event.threadID, () => fs.unlinkSync(cachePath), event.messageID);
+      });
+
+      writer.on("error", () => {
+        api.sendMessage("❌ Image download failed", event.threadID);
+      });
+
+    } catch (err) {
       console.error(err);
-      api.sendMessage("Error downloading image 😢", event.threadID, event.messageID);
-    });
-
-  } catch (err) {
-    console.error(err);
-    api.sendMessage("Something went wrong! 😅", event.threadID, event.messageID);
+      api.sendMessage("⚠️ Something went wrong!", event.threadID, event.messageID);
+    }
   }
 };
