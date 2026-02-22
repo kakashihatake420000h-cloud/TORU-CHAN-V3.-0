@@ -27,7 +27,6 @@ module.exports = {
       "Game",
       "Love",
      "Tag Fun",
-      "Others",
       "Media"
     ];
 
